@@ -1,9 +1,12 @@
 package result
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 )
+
+type Void struct{}
 
 type Result[T any] struct {
 	error     error
@@ -46,6 +49,10 @@ func OK[T any](value T) Result[T] {
 	}
 }
 
+func SimpleOk() Result[Void] {
+	return OK(Void{})
+}
+
 func Fail[T any](err error) Result[T] {
 	return Result[T]{
 		error:     err,
@@ -54,10 +61,18 @@ func Fail[T any](err error) Result[T] {
 	}
 }
 
+func SimpleFail(err error) Result[Void] {
+	return Fail[Void](err)
+}
+
 func NotFound[T any](err error) Result[T] {
 	return Result[T]{
 		error:     err,
 		isSuccess: false,
 		code:      http.StatusNotFound,
 	}
+}
+
+func SimpleNotFound() Result[Void] {
+	return NotFound[Void](errors.New("Not found"))
 }
