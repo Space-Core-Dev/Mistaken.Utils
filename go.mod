@@ -1,4 +1,4 @@
-module mistaken.utils
+module github.com/Space-Core-Dev/mistaken.utils
 
 go 1.24.3
 
